@@ -1,0 +1,19 @@
+{
+ "users": [
+  {
+   "id": 1,
+   "username": "udin",
+   "email": "udin@mail.com",
+   "password": "password"
+  },
+  {
+   "id": 2,
+   "username": "ujang",
+   "email": "ujang@mail.com",
+   "password": "password"
+  }
+ ],
+ "counter": {
+  "users": 3
+ }
+}
