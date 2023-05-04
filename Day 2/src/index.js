@@ -5,10 +5,13 @@ dotenv.config(); //untuk memanggil env
 const PORT = process.env.PORT;
 const routes = require('./routes/index');
 const verify = require('./middlewares/verify');
+const log = require('./middlewares/write-log');
 //agar routes dapat membaca req.body json
 app.use(express.json());
 
-app.use('/users', verify, routes.userRoutes);
+app.use(log, verify);
+
+app.use('/users', routes.userRoutes);
 
 app.use('/', (req, res) => res.send('EXPRESS API'));
 
