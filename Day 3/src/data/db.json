@@ -1,0 +1,40 @@
+{
+ "expenses": [
+  {
+   "id": 2,
+   "date": "5-2-2023",
+   "title": "makan di kantin NDP",
+   "category": "food",
+   "expense": 20000
+  },
+  {
+   "id": 3,
+   "date": "5-3-2023",
+   "title": "nonton guardian of galaxy",
+   "category": "entertaiment",
+   "expense": 20000
+  },
+  {
+   "id": 4,
+   "date": "5-3-2023",
+   "title": "makan siang",
+   "category": "food",
+   "expense": 30000
+  },
+  {
+   "id": 6,
+   "date": "5-5-2023",
+   "title": "makan siang NDP",
+   "category": "food",
+   "expense": 25000
+  },
+  {
+   "id": 7,
+   "date": "5-5-2023",
+   "title": "makan siang NDP",
+   "category": "food",
+   "expense": 25000
+  }
+ ],
+ "counter": { "expenses": 8 }
+}
