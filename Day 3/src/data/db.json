@@ -36,5 +36,52 @@
    "expense": 25000
   }
  ],
+
+ "students": [
+  {
+   "id": 2,
+   "name": "reynaldi",
+   "age": 100,
+   "address": "bangka",
+   "classId": 1
+  },
+  {
+   "id": 3,
+   "name": "thomas",
+   "age": 200,
+   "address": "batam"
+  },
+  {
+   "id": 4,
+   "name": "chris",
+   "age": 1,
+   "address": "jonggol"
+  },
+  {
+   "id": 5,
+   "name": "fahmi",
+   "age": 5,
+   "address": "rusun"
+  }
+ ],
+
+ "class": [
+  {
+   "id": 1,
+   "name": "class jcwd",
+   "location": "batam"
+  },
+  {
+   "id": 2,
+   "name": "class jcwd",
+   "location": "papua"
+  },
+  {
+   "id": 3,
+   "name": "class jcwd",
+   "location": "jakarta"
+  }
+ ],
+
  "counter": { "expenses": 8 }
 }

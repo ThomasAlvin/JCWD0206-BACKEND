@@ -7,7 +7,7 @@ const routes = require('./routes/index');
 app.use(express.json());
 
 app.use('/expenses', routes.expensesRoutes);
-
+app.use('/students', routes.studentsRoutes);
 app.use('/', (req, res) => res.send('EXPRESS API'));
 
 app.listen(PORT, () => {
