@@ -77,9 +77,10 @@ join customer c on c.address_id = ad.address_id;
    use sakila;
 -- subquery 
 		-- di dalam kolom 
-				select  (select first_name from customer where customer_id = payment.customer_id) test , payment.* from payment;
-                
+			-- 	select  (select first_name from customer where customer_id = payment.customer_id) test , payment.* from payment;
+--                 munculkan nama staff, nama customer, tgl payment. -- select * from payment
         -- di dalam from 
+        
         -- di dalam where
         -- didalam having 
         -- dalam join
@@ -87,8 +88,32 @@ join customer c on c.address_id = ad.address_id;
         
 
 -- union 
-
+select district, 'ini adalah district A' grup from address where district like 'a%'
+union
+select district, 'ini adalah district B' grup from address where district like 'b%';
 -- transaction 
+SET autocommit = 0;
+use db_purwadhika;
+
+create table branches (
+id int primary key  auto_increment, 
+branch varchar(255), 
+address varchar(255) );
+
+create table programs (
+id int auto_increment primary key, 
+program varchar(255), 
+branchId int,
+CONSTRAINT FK_branches foreign key (branchId) references branches(id)
+);
+
+CREATE INDEX idx_lastname
+ON students (lastName)
+
+
 
 -- index 
 
+select * from customer where last_name = "jones";
+=> mencari last_name = jones dari seluruh kolom di dalam customer 
+indexing => kolom => first_name
