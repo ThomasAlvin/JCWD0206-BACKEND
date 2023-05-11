@@ -12,12 +12,13 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
  if (err) console.log(err);
- else console.log('mysql connect');
+ else console.log('mysql connected');
 });
 
 let queryString = '';
 
 router.get('/', (req, res) => {
+ //get all from students
  queryString = 'SELECT * FROM students ';
  db.query(queryString, (err, result) => {
   if (err)
@@ -40,3 +41,6 @@ router.get('/:id', (req, res) => {
 });
 
 module.exports = router;
+
+// buatlah api untuk front todo list berikut dengan databasenya
+//
