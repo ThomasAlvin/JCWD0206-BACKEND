@@ -1,0 +1,46 @@
+sequelize merupakan sebuah orm untuk menggunakan mysql
+berjalan pada saat nodemon 
+
+sequelize-cli merupakan sebuah command line untuk menggunakan sequelize 
+- menciptakan migration 
+- menciptakan model 
+- menciptkan seeders 
+
+sama sama terkoneksi database 
+
+sequelize berjalan pada saat nodemon. 
+dotnev.config() => kita dapat mengakses env di dalam config.js 
+
+sequelize-cli, berjalan pada saat kita menggunakan command line milik sequelize
+tidak berjalan bersamaan dengan nodemon. 
+tidak dapat mengakses env. 
+supaya bisa menjalan env, maka kita membuat sequelizerc (sequelize config)
+config > memberikan informasi letak config, migraions, models,seeders,dll
+juga menjalan dotenv, supaya pada saat menjalan commandline miliki sequelize
+kita dapat menggunakan env sebagai environment seperti username,password, dll
+
+migrations = meng-eksekusi object menjadi sebuah table (history)
+note = menciptakan sebuah table tidak harus menggunakan migration. 
+migration juga digunakan sebagai history terjadinya perubahan bentuk design pada table dalam database 
+
+name,password,email => mencatat schema table sebelumnya
+firstname,lastname,password,email  => schema table setelahnya 
+
+buat file migration > eksekusi melalui sequelize-cli > menciptakan/edit table di dalam database 
+
+
+models = merupakan model object untuk dijadikan table di dalam database. 
+untuk menggunakan function/method seperti insert,delete,select,update,dll kita akan menggunakan nama dari modelnya 
+
+lewat model kita bisa menciptakan table secara otomatis, sama seperti migrations.
+bedanya apa? model tidak mencatat perubahan. tetapi migration mencatat perubahan
+
+model, migration. menggunakan sequelize-cli untuk menciptakan table 
+model. menjalan sequelize untuk menciptakan table
+
+seeders = merupakan data yang kita masukan ke dalam database. bentuknya mirip dengan migrations 
+
+migrations, seeders berjalan lewat sequelize-cli 
+sedangkan untuk models, bisa menggunakan sequelize aja.
+
+
