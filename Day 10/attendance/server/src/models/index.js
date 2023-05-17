@@ -48,33 +48,11 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Branch = require('./Branch')(sequelize, Sequelize);
-db.Lecturer = require('./Lecturer')(sequelize, Sequelize);
-db.Program = require('./Program')(sequelize, Sequelize);
+db.Attendance = require('./Attendance')(sequelize, Sequelize);
+db.Company = require('./Company')(sequelize, Sequelize);
+db.User = require('./User')(sequelize, Sequelize);
 
-db.Program.belongsTo(db.Branch, {
- foreignKey: 'branch_id'
-});
-
-db.Program.belongsTo(db.Lecturer, {
- foreignKey: 'lecturer_id'
-});
-
-db.Branch.hasMany(db.Program, {
- foreignKey: 'branch_id'
-});
-db.Lecturer.hasMany(db.Program, {
- foreignKey: 'lecturer_id'
-});
-
-// db.Program.belongsTo(db.Branch, {
-//  foreignKey: 'branch_id',
-//  as: 'Branch'
-// });
-
-// db.Program.belongsTo(db.Lecturer, {
-//  foreignKey: 'lecturer_id',
-//  as: 'Lecturer'
-// });
+db.User.belongsTo(db.Company);
+db.Attendance.belongsTo(db.User);
 
 module.exports = db;

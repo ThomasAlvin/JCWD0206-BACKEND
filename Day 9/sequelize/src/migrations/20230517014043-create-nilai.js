@@ -1,26 +1,26 @@
 'use strict';
-const Sequelize = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
- async up(queryInterface) {
+ async up(queryInterface, Sequelize) {
   /**
    * Add altering commands here.
    *
    * Example:
    * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
    */
-  await queryInterface.alterTable('Branches', {
+  await queryInterface.createTable('Nilais', {
    id: {
-    allowNull: false,
-    autoIncrement: true,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    type: Sequelize.INTEGER
+    allowNull: false,
+    autoIncrement: true
    },
-   branch: {
-    type: Sequelize.STRING
+   nilai: {
+    type: DataTypes.INTEGER
    },
-   address: {
-    type: Sequelize.STRING
+   module: {
+    type: DataTypes.STRING
    }
   });
  },
@@ -32,8 +32,5 @@ module.exports = {
    * Example:
    * await queryInterface.dropTable('users');
    */
-
-  await queryInterface.dropTable('Branches');
  }
 };
-// sequelize migration:generate --name create-branch-table

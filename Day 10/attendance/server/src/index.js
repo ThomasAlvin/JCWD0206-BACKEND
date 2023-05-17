@@ -8,12 +8,12 @@ app.use(cors());
 app.use(express.json());
 const routes = require('./routes');
 const db = require('./models/');
-// db.sequelize.sync({ alter: true });
+// db.sequelize.sync({ force: true });
 
 app.get('/', (req, res) => res.send('sequelize'));
 
-app.use('/branches', routes.branchRoutes);
-app.use('/programs', routes.programRoutes);
+app.use('/auth', routes.userRoutes);
+// app.use('/attendance', routes.programRoutes);
 
 app.listen(PORT, () => {
  console.log(`server is running on port ${PORT}`);
