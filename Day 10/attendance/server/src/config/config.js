@@ -7,6 +7,10 @@ module.exports = {
   password: db_password,
   database: db_database,
   host: db_host,
-  dialect: db_dialect
+  dialect: db_dialect,
+  dialectOptions: {
+   useUTC: false // for reading from database
+  },
+  timezone: '+05:30'
  }
 };

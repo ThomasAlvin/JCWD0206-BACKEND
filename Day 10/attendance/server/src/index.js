@@ -8,11 +8,13 @@ app.use(cors());
 app.use(express.json());
 const routes = require('./routes');
 const db = require('./models/');
-// db.sequelize.sync({ force: true });
+// db.sequelize.sync({ alter: true });
 
 app.get('/', (req, res) => res.send('sequelize'));
 
 app.use('/auth', routes.userRoutes);
+app.use('/attendances', routes.attendanceRoutes);
+
 // app.use('/attendance', routes.programRoutes);
 
 app.listen(PORT, () => {

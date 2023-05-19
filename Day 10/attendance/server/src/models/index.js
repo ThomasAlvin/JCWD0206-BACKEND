@@ -48,6 +48,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.Token = require('./Token')(sequelize, Sequelize);
 db.Attendance = require('./Attendance')(sequelize, Sequelize);
 db.Company = require('./Company')(sequelize, Sequelize);
 db.User = require('./User')(sequelize, Sequelize);
