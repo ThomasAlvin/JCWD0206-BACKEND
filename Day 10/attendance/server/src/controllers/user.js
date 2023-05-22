@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const private_key = process.env.private_key;
 const { nanoid } = require('nanoid');
 const moment = require('moment');
+const url = process.env.URL;
+const mailer = require('../lib/mailer');
 const userController = {
  register: async (req, res) => {
   try {
@@ -132,29 +134,139 @@ const userController = {
 
   res.send(user);
  },
- getByTokenV2: async (req, res) => {
+ getByTokenV2: async (req, res, next) => {
   try {
    const { token } = req.query;
+   console.log(token);
    let p = await db.Token.findOne({
     where: {
      token,
      expired: {
-      [db.Sequelize.Op.gt]: moment(),
-      [db.Sequelize.Op.lte]: moment().add(1, 'd')
-     }
+      [db.Sequelize.Op.gte]: moment().format()
+     },
+     valid: true
     }
    });
+
+   // select * from tokes where token ="abc" and expired >= "2023-05-23"
+   // and valid = true
+
+   if (!p) {
+    throw new Error('token has expired');
+   }
+   console.log(p.dataValues);
    user = await db.User.findOne({
     where: {
      id: JSON.parse(p.dataValues.payload).id
     }
    });
+   //id,email,nama,password,dll
 
    delete user.dataValues.password;
 
-   res.send(user);
+   req.user = user;
+   next();
   } catch (err) {
-   return res.status(500).send(err.message);
+   console.log(err);
+   return res.status(500).send({ message: err.message });
+  }
+ },
+
+ getUserByToken: async (req, res) => {
+  res.send(req.user);
+ },
+
+ generateTokenByEmail: async (req, res) => {
+  try {
+   const { email } = req.query;
+
+   const user = await db.User.findOne({
+    where: {
+     email
+    }
+   });
+
+   if (user.dataValues) {
+    // cek apa ada token yg mengarah ke id user tsb
+    await db.Token.update(
+     {
+      valid: false
+     },
+     {
+      where: {
+       payload: JSON.stringify({ id: user.dataValues.id }),
+       // { "id" : 1 }
+       status: 'FORGOT-PASSWORD'
+      }
+     }
+    );
+
+    const generateToken = nanoid();
+    const token = await db.Token.create({
+     expired: moment().add(5, 'minutes').format(),
+     token: generateToken,
+     payload: JSON.stringify({ id: user.dataValues.id }),
+     status: 'FORGOT-PASSWORD'
+    });
+
+    mailer({
+     subject: 'hello',
+     to: 'zcqvfoante@internetkeno.com',
+     text: url + token.dataValues.token
+    });
+
+    // return res.send({ url: url + token.dataValues.token });
+    // return res.send({
+    //  nav: '/forgot-password/' + token.dataValues.token
+    //  // nav : "/forgot-password/abc123"
+    // });
+
+    return res.send({ message: 'silahkan check email anda' });
+   } else {
+    throw new Error('user not found');
+   }
+  } catch (err) {
+   res.status(500).send({ message: err.message });
+  }
+ },
+ changePassword: async (req, res) => {
+  try {
+   const { token } = req.query;
+
+   const { password } = req.body.user;
+   const { id } = req.user;
+
+   console.log(id);
+
+   const hashPassword = await bcrypt.hash(password, 10);
+
+   await db.User.update(
+    {
+     password: hashPassword
+    },
+    {
+     where: {
+      id
+     }
+    }
+   );
+
+   await db.Token.update(
+    {
+     valid: false
+    },
+    {
+     where: {
+      token
+     }
+    }
+   );
+
+   res.send({
+    message: 'password berhasil diupdate'
+   });
+  } catch (err) {
+   res.status(500).send({ message: err.message });
   }
  }
 };
@@ -166,3 +278,5 @@ module.exports = userController;
 
 // hoc => token localstorage => req backend get
 // user by id => respond => dispatch
+
+// http://localhost:3000/forgot-password/DIjeA2YhdvH06CbRG1Mmk

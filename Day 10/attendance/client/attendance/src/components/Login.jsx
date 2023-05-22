@@ -2,8 +2,10 @@ import { Box, Center, Flex, Input, Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
+ const dispatch = useDispatch();
  const [user, setUser] = useState({
   email: '',
   password: ''
@@ -20,12 +22,22 @@ export default function Login() {
  };
 
  const login = async () => {
-  const result = await axios.post('http://localhost:2000/auth/v1', user);
-  console.log(result.data);
-  alert(result.data.message);
-  if (result.data.value) {
-   nav('/');
-  }
+  await axios
+   .post('http://localhost:2000/auth/v1', user)
+   .then((res) => {
+    localStorage.setItem('user', JSON.stringify(res.data.value));
+    dispatch({
+     type: 'login',
+     payload: res.data.value
+    });
+    nav('/');
+   })
+   .catch((err) => alert('email/password salah'));
+
+  //   console.log(result.data);
+  //   alert(result.data.message);
+  //   if (result.data.message) {
+  //   }
   return;
  };
 

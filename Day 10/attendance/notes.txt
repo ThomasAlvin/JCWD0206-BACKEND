@@ -1,0 +1,27 @@
+membuat page forgot-password
+fitur merubah password
+
+
+email => token (id)
+localhost:3000/forgot-password/request
+
+
+buat sebuah routes untuk membuka token tersebut
+localhost:3000/forgot-password/token
+update password by token(id)
+
+token dapat expired = waktu
+apa bila waktu token lebih besar 
+dari waktu sekarang
+token = valid (tetap dapat diakses)
+
+setiap request akan menciptakan token baru 
+maka dari itu maka setiap token lama harus dibuat 
+invalid/expired
+
+pada saat berhasil update password, maka token 
+expired
+
+status enum("login", "forgot-password")
+valid boolean, defaultValue = true 
+

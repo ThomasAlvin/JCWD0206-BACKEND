@@ -6,17 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ChakraProvider } from '@chakra-ui/react';
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './redux/store';
+import thunk from 'redux-thunk';
 
+const store = configureStore({ reducer: rootReducer, middleware: [thunk] });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
  // <React.StrictMode>
- //  <Provider>
- <ChakraProvider>
-  <BrowserRouter>
-   <App />
-  </BrowserRouter>
- </ChakraProvider>
- //  </Provider>
+ <Provider store={store}>
+  <ChakraProvider>
+   <BrowserRouter>
+    <App />
+   </BrowserRouter>
+  </ChakraProvider>
+ </Provider>
 
  // </React.StrictMode>
 );

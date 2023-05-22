@@ -1,18 +1,32 @@
 import { Box, Center } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Footer() {
+ const nav = useNavigate();
+
+ async function logout() {
+  localStorage.removeItem('user');
+  nav('/login');
+ }
+
  return (
   <>
-   <Center position={'fixed'} bottom={'0'} w="100%" zIndex={2}>
+   <Center
+    position={'fixed'}
+    bottom={'0'}
+    w="100%"
+    zIndex={2}
+    fontSize={'14px'}
+   >
     <Center
      h="70px"
-     w="500px"
+     w="100vw"
      bgColor={'#BF2935'}
      justifyContent={'space-between'}
      padding={'10px'}
      color="white"
      fontWeight={'500'}
+     maxW="768px"
     >
      <Link to="/">
       <Box>DASHBOARD</Box>
@@ -21,9 +35,7 @@ export default function Footer() {
       <Box>ATTENDANCE LOG</Box>
      </Link>
 
-     <Link to="/login">
-      <Box>LOG OUT</Box>
-     </Link>
+     <Box onClick={logout}>LOG OUT</Box>
     </Center>
    </Center>
   </>

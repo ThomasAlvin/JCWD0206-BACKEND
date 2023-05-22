@@ -1,5 +1,13 @@
-import { Box, Center, Flex, Input, Button, Textarea } from '@chakra-ui/react';
-import { useState } from 'react';
+import {
+ Box,
+ Center,
+ Flex,
+ Input,
+ Button,
+ Textarea,
+ Select
+} from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 export default function Register() {
@@ -11,6 +19,8 @@ export default function Register() {
   address: ''
  });
 
+ const [companies, setCompanies] = useState([]);
+
  const inptHandler = (e) => {
   const { id, value } = e.target;
   const tempUser = { ...user };
@@ -18,6 +28,15 @@ export default function Register() {
   setUser(tempUser);
   console.log(tempUser);
  };
+
+ useEffect(() => {
+  async function getCompany() {
+   const res = await axios.get('http://localhost:2000/auth/companies');
+   console.log(res.data);
+   setCompanies(res.data);
+  }
+  getCompany();
+ }, []);
 
  const register = async () => {
   const result = await axios.post('http://localhost:2000/auth', user);
@@ -62,17 +81,18 @@ export default function Register() {
 
      <Box>
       <Box fontWeight={'500'} paddingBottom={'10px'}>
-       CompanyId
-      </Box>
-      <Input id="CompanyId" onChange={inptHandler}></Input>
-     </Box>
-
-     <Box>
-      <Box fontWeight={'500'} paddingBottom={'10px'}>
        Address
       </Box>
       <Textarea id="address" onChange={inptHandler}></Textarea>
      </Box>
+
+     <Select id="CompanyId" onChange={inptHandler} placeholder="Pilih Company">
+      {companies.map((val) => (
+       <option key={val.id} value={val.id}>
+        {val.name}
+       </option>
+      ))}
+     </Select>
 
      <Button
       marginTop={'20px'}
