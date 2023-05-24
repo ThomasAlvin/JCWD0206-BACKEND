@@ -14,6 +14,7 @@ app.get('/', (req, res) => res.send('sequelize'));
 
 app.use('/auth', routes.userRoutes);
 app.use('/attendances', routes.attendanceRoutes);
+app.use('/avatar', express.static(`${__dirname}/public/avatar`));
 
 // app.use('/attendance', routes.programRoutes);
 

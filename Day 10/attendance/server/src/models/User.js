@@ -13,6 +13,12 @@ module.exports = (sequelize, Sequelize) => {
    },
    email: {
     type: Sequelize.STRING
+   },
+   avatar_url: {
+    type: Sequelize.STRING
+   },
+   avatar_blob: {
+    type: Sequelize.BLOB('long')
    }
   },
   {

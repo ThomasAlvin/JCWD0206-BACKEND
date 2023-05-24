@@ -1,17 +1,34 @@
-import { Box, Center, Flex, Button } from '@chakra-ui/react';
+import {
+ Box,
+ Center,
+ Flex,
+ Button,
+ Spinner,
+ Avatar,
+ Input
+} from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import Footer from './Footer';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
  const nav = useNavigate();
+ const inputFileRef = useRef(null);
+ const dispatch = useDispatch();
 
  const [log, setLog] = useState({ clock_in: '', clock_out: '' });
  const userSelector = useSelector((state) => state.auth);
+
+ const [selectedFile, setSelectedFile] = useState(null);
+
+ const handleFile = (event) => {
+  setSelectedFile(event.target.files[0]);
+  console.log(event.target.files[0]);
+ };
  useEffect(() => {
   async function getTodayLog() {
    if (!userSelector.id) {
@@ -30,6 +47,27 @@ export default function Dashboard() {
   getTodayLog();
   console.log(userSelector);
  }, []);
+
+ async function uploadAvatar() {
+  const formData = new FormData();
+  formData.append('avatar', selectedFile);
+  let user;
+  await axios
+   .post('http://localhost:2000/auth/image/v1/' + userSelector.id, formData)
+   .then((res) => {
+    user = res.data;
+   });
+
+  console.log(user);
+  if (user) {
+   await dispatch({
+    type: 'login',
+    payload: user
+   });
+
+   alert('berhasil upload');
+  }
+ }
 
  async function InputClock(e) {
   const { id } = e.target;
@@ -54,12 +92,12 @@ export default function Dashboard() {
       <Center
        fontWeight={'500'}
        flexDir={'column'}
-       h="300px"
+       h="330px"
        w="100%"
        maxW={'378px'}
       >
        <Box>Welcome, {userSelector.name}</Box>
-
+       <Avatar paddingY={'5px'} src={userSelector.avatar_url} />
        <Center padding={'10px'} flexDir={'column'}>
         <Box fontSize={'30px'} fontWeight={'500'}>
          <Time />
@@ -124,7 +162,33 @@ export default function Dashboard() {
      >
       <Flex justifyContent={'space-between'} w="100%" fontWeight={'500'}>
        <Box>Attendance Log</Box>
+
        <Box color="#8A8A8A">View Log</Box>
+      </Flex>
+
+      <Flex justifyContent={'space-between'}>
+       <Input
+        accept="image/png, image/jpeg"
+        onChange={handleFile}
+        ref={inputFileRef}
+        type="file"
+        display="none"
+       />
+       <Button
+        // w="full"
+        onClick={() => inputFileRef.current.click()}
+        size={'lg'}
+        colorScheme="teal"
+       >
+        Select Avatar
+       </Button>
+       <Button
+        // w="full"
+        onClick={uploadAvatar}
+        size={'lg'}
+       >
+        Change Avatar
+       </Button>
       </Flex>
 
       {log.clock_in ? (

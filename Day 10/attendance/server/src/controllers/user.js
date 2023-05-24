@@ -6,6 +6,8 @@ const { nanoid } = require('nanoid');
 const moment = require('moment');
 const url = process.env.URL;
 const mailer = require('../lib/mailer');
+const url_image = process.env.URL_IMAGE;
+const sharp = require('sharp');
 const userController = {
  register: async (req, res) => {
   try {
@@ -93,7 +95,8 @@ const userController = {
      const token = await db.Token.create({
       expired: moment().add(1, 'days').format(),
       token: generateToken,
-      payload: JSON.stringify(payload)
+      payload: JSON.stringify(payload),
+      status: 'LOGIN'
      });
 
      console.log(token);
@@ -101,7 +104,7 @@ const userController = {
 
      return res.send({
       message: 'login berhasil',
-      value: user,
+      //   value: user,
       token: token.dataValues.token
      });
     } else {
@@ -136,7 +139,9 @@ const userController = {
  },
  getByTokenV2: async (req, res, next) => {
   try {
-   const { token } = req.query;
+   let token = req.headers.authorization;
+   //    const { token } = req.query;
+   token = token.split(' ')[1];
    console.log(token);
    let p = await db.Token.findOne({
     where: {
@@ -147,6 +152,9 @@ const userController = {
      valid: true
     }
    });
+
+   //select * from tokens where token = "token"
+   // and expired >= "2023-5-23" and valid = true
 
    // select * from tokes where token ="abc" and expired >= "2023-05-23"
    // and valid = true
@@ -164,7 +172,7 @@ const userController = {
 
    delete user.dataValues.password;
 
-   req.user = user;
+   req.user = user; //{ id , name, dll}
    next();
   } catch (err) {
    console.log(err);
@@ -173,7 +181,8 @@ const userController = {
  },
 
  getUserByToken: async (req, res) => {
-  res.send(req.user);
+  //   delete req.user.password;
+  res.send(req.user); // {id,name,dll}
  },
 
  generateTokenByEmail: async (req, res) => {
@@ -231,7 +240,8 @@ const userController = {
  },
  changePassword: async (req, res) => {
   try {
-   const { token } = req.query;
+   let token = token.split(' ')[1];
+   token = req.headers.authorization;
 
    const { password } = req.body.user;
    const { id } = req.user;
@@ -267,6 +277,79 @@ const userController = {
    });
   } catch (err) {
    res.status(500).send({ message: err.message });
+  }
+ },
+ uploadAvatar: async (req, res) => {
+  const { filename } = req.file;
+
+  await db.User.update(
+   {
+    avatar_url: url_image + filename
+   },
+   {
+    where: {
+     id: req.params.id
+    }
+   }
+  );
+
+  await db.User.findOne({
+   where: {
+    id: req.params.id
+   }
+  }).then((result) => res.send(result));
+
+  //   res.send(filename);
+ },
+ uploadAvatarV2: async (req, res) => {
+  try {
+   const buffer = await sharp(req.file.buffer)
+    .resize(250, 250)
+    .png()
+    .toBuffer();
+
+   let fullUrl =
+    req.protocol +
+    '://' +
+    req.get('host') +
+    '/auth/image/render/' +
+    req.params.id;
+
+   console.log(fullUrl);
+   await db.User.update(
+    {
+     avatar_url: fullUrl,
+     //  avatar_url: url + 'auth/image/render/' + req.params.id,
+     avatar_blob: buffer
+    },
+    {
+     where: {
+      id: req.params.id
+     }
+    }
+   );
+
+   res.send('berhasil upload');
+  } catch (err) {
+   console.log(err.message);
+   res.send(err.message);
+  }
+ },
+ renderAvatar: async (req, res) => {
+  try {
+   await db.User.findOne({
+    where: {
+     id: req.params.id
+    }
+   }).then((result) => {
+    res.set('Content-type', 'image/png');
+
+    res.send(result.dataValues.avatar_blob);
+   });
+  } catch (err) {
+   return res.send({
+    message: err.message
+   });
   }
  }
 };

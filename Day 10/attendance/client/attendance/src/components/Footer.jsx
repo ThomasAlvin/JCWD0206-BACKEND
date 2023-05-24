@@ -5,7 +5,7 @@ export default function Footer() {
  const nav = useNavigate();
 
  async function logout() {
-  localStorage.removeItem('user');
+  localStorage.removeItem('auth');
   nav('/login');
  }
 

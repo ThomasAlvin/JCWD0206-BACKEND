@@ -1,6 +1,5 @@
 const init = {
- email: '',
- password: ''
+ email: ''
 };
 
 function userReducer(state = init, action) {
@@ -10,9 +9,9 @@ function userReducer(state = init, action) {
    ...state,
    id: action.payload.id,
    email: action.payload.email,
-   password: action.payload.password,
    name: action.payload.name,
-   address: action.payload.birthdate
+   address: action.payload.birthdate,
+   avatar_url: action.payload.avatar_url
   };
  } else if (action.type == 'logout') {
   return init;

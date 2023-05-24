@@ -11,17 +11,26 @@ import { Center, Spinner } from '@chakra-ui/react';
 import ForgotPassword, {
  RequestForgotPassword
 } from './components/ForgotPassword';
+import axios from 'axios';
 
 function App() {
  const dispatch = useDispatch();
  const [isLoading, setIsLoading] = useState(true);
 
  async function getUser() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const token = JSON.parse(localStorage.getItem('auth'));
+
+  const user = await axios.get('http://localhost:2000/auth/v3', {
+   headers: {
+    Authorization: `Bearer ${token}`
+   }
+  });
+
+  console.log(user);
   if (user) {
-   dispatch({
+   await dispatch({
     type: 'login',
-    payload: user
+    payload: user.data
    });
   }
   console.log(user);
@@ -29,9 +38,11 @@ function App() {
 
  useEffect(() => {
   getUser();
-  setTimeout(() => {
-   setIsLoading(false);
-  }, 1000);
+  new Promise((resolve) => {
+   setTimeout(() => {
+    resolve(setIsLoading(false));
+   }, 1000);
+  });
  }, []);
 
  return (

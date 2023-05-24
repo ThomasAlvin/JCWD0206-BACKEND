@@ -11,7 +11,11 @@ export default function ForgotPassword() {
 
  async function fetchUser(token) {
   await axios
-   .get('http://localhost:2000/auth/v3', { params: { token } })
+   .get('http://localhost:2000/auth/v3', {
+    headers: {
+     Authorization: `Bearer ${token}`
+    }
+   })
    .then((res) => {
     console.log(res.data);
     setUser(res.data);

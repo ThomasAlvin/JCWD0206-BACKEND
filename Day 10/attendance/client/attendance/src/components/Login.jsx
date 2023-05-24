@@ -22,17 +22,38 @@ export default function Login() {
  };
 
  const login = async () => {
+  let token;
   await axios
-   .post('http://localhost:2000/auth/v1', user)
+   .post('http://localhost:2000/auth/v2', user)
    .then((res) => {
-    localStorage.setItem('user', JSON.stringify(res.data.value));
-    dispatch({
-     type: 'login',
-     payload: res.data.value
-    });
-    nav('/');
+    localStorage.setItem('auth', JSON.stringify(res.data.token));
+
+    token = res.data.token;
    })
    .catch((err) => alert('email/password salah'));
+
+  //   console.log(token);
+
+  //get user berdasarkan token
+
+  await axios
+   .get('http://localhost:2000/auth/v3', {
+    headers: {
+     Authorization: `Bearer ${token}`
+    }
+    // params : {
+    //     token
+    // }
+   })
+   .then(async (res) => {
+    await dispatch({
+     type: 'login',
+     payload: res.data
+    });
+    nav('/');
+
+    // console.log(res.data);
+   });
 
   //   console.log(result.data);
   //   alert(result.data.message);
