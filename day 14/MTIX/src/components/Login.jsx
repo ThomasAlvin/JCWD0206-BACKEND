@@ -86,9 +86,8 @@ export default function Login() {
       >
        Login
       </Button>
-
       <Flex justifyContent={'end'} flexDir={'column'} textDecor={'underline'}>
-       Forgot/Password
+       <Link to="/forgot-password">Forgot/Password</Link>
       </Flex>
      </Flex>
 

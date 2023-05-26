@@ -12,10 +12,15 @@ export default function HomePage() {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     async function fetch() {
-      await api.get("/movie").then((res) => {
-        console.log(res.data);
-        setMovies(res.data);
-      });
+      try {
+        await api.get("/movies").then((res) => {
+          console.log(res.data);
+          setMovies(res.data);
+        });
+      } catch (err) {
+        console.log(err.message);
+        alert("error");
+      }
     }
     fetch();
   }, []);

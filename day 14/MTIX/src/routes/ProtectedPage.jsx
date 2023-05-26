@@ -12,17 +12,20 @@ export default function ProtectedPage({
  const userSelector = useSelector((state) => state.auth);
  const nav = useNavigate();
 
+ console.log(userSelector);
+ console.log(needLogin);
+
  useEffect(() => {
-  //   if (guestOnly && userSelector?.email) {
-  //    return nav('/home');
-  //   } else if (needLogin && !userSelector?.email) {
-  //    return nav('/login');
-  //   }
- }, [userSelector]);
+  if (guestOnly && userSelector?.email) {
+   return nav('/home');
+  } else if (needLogin && !userSelector?.email) {
+   return nav('/login');
+  }
+ });
 
  return (
   <>
-   {needLogin ? (
+   {/* {needLogin ? (
     <>
      <Navbar />
      {children}
@@ -34,7 +37,11 @@ export default function ProtectedPage({
      {children}
      {userSelector.id ? <Footer /> : null}
     </>
-   )}
+   )} */}
+
+   <Navbar />
+   {children}
+   <Footer />
   </>
  );
 }
