@@ -56,4 +56,20 @@ db.User = require('./User')(sequelize, Sequelize);
 db.User.belongsTo(db.Company);
 db.Attendance.belongsTo(db.User);
 
+// db.Program.belongsTo(db.Branch, {
+//     foreignKey: 'branch_id'
+//    });
+   
+//    db.Program.belongsTo(db.Lecturer, {
+//     foreignKey: 'lecturer_id'
+//    });
+   
+//    db.Branch.hasMany(db.Program, {
+//     foreignKey: 'branch_id'
+//    });
+//    db.Lecturer.hasMany(db.Program, {
+//     foreignKey: 'lecturer_id'
+//    });
+
 module.exports = db;
+
