@@ -1,7 +1,7 @@
-const attendanceController = require('./attendance');
-const userController = require('./user');
+const attendanceController = require("./attendance");
+const userController = require("./user");
 attendanceController;
 module.exports = {
- userController,
- attendanceController
+  userController,
+  attendanceController,
 };

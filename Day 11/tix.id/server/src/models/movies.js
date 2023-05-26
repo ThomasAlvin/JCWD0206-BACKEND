@@ -41,6 +41,9 @@ module.exports = (sequelize, Sequelize) => {
       upcoming: {
         type: Sequelize.STRING,
       },
+      img_url: {
+        type: Sequelize.STRING,
+      },
     },
     {
       paranoid: true,

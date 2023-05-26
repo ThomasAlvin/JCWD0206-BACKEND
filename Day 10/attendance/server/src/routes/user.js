@@ -40,7 +40,7 @@ router.post(
 router.post(
   "/image/v2/:id",
   upload.single("avatar"),
-  userController.uploadAvatarV2
+  userController.uploadAvatarv2
 );
 
 router.get("/image/render/:id", userController.renderAvatar);

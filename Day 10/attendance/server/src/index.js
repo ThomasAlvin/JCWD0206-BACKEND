@@ -16,7 +16,7 @@ app.use("/auth", routes.userRoutes);
 app.use("/attendances", routes.attendanceRoutes);
 app.use("/avatar", express.static(`${__dirname}/public/avatar`));
 // app.use('/attendance', routes.programRoutes);
-
+console.log(__dirname);
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });

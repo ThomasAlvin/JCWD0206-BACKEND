@@ -6,12 +6,26 @@ const cors = require("cors");
 const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
+const secret_key = process.env.secret_key;
 
 const db = require("./models/");
 const routes = require("./routes");
+const { userController } = require("./controllers");
 // db.sequelize.sync({ alter: true });
 
 app.get("/", (req, res) => res.send("sequelize"));
+app.use("/movieimg", express.static(`${__dirname}/public/movie`));
+app.get("auth/image/render/:id", userController.renderAvatar);
+
+app.use((req, res, next) => {
+  console.log(req.headers);
+  const secret = req.headers.authorization;
+  if (secret == secret_key) {
+    next();
+  } else {
+    res.status(500).send("authorization failed");
+  }
+});
 
 app.use("/city", routes.cityRoutes);
 app.use("/movie", routes.movieRoutes);

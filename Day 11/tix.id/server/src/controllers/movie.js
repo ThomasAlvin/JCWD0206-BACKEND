@@ -2,6 +2,7 @@ const db = require("../models");
 const Sequelize = require("sequelize");
 const { Op } = db.Sequelize;
 const moment = require("moment");
+const image_url_movie = process.env.URL_IMAGE;
 const movieController = {
   getAll: async (req, res) => {
     try {
@@ -45,6 +46,7 @@ const movieController = {
         rating,
         dimensions,
         upcoming,
+        img_url,
       } = req.body;
       await db.Movie.update(
         {
@@ -61,6 +63,7 @@ const movieController = {
           rating,
           dimensions,
           upcoming,
+          img_url,
         },
         {
           where: {
@@ -98,6 +101,8 @@ const movieController = {
         dimensions,
         upcoming,
       } = req.body;
+      const { filename } = req.file;
+      console.log("lol");
       await db.Movie.create({
         name,
         producer,
@@ -112,6 +117,7 @@ const movieController = {
         rating,
         dimensions,
         upcoming,
+        img_url: image_url_movie + filename,
       });
       return await db.Movie.findAll().then((result) => {
         res.send(result);
