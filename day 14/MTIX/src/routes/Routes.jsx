@@ -1,6 +1,10 @@
 import Profile from '../components/Profile';
+import ChangePasswordPage, {
+ ChangePasswordPage2
+} from '../pages/ChangePasswordPage';
 import CityPage from '../pages/CityPage';
 import EditProfilePage from '../pages/EditProfile';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import MovieDetailPage from '../pages/MovieDetailPage';
@@ -35,7 +39,7 @@ const routes = [
   path="/profile/edit"
   key={'editprofile'}
   element={
-   <ProtectedPage guestOnly={true}>
+   <ProtectedPage needLogin={true}>
     <EditProfilePage />{' '}
    </ProtectedPage>
   }
@@ -53,7 +57,7 @@ const routes = [
   path="/movies/:id/theaters/:theater/seat"
   key={'seat'}
   element={
-   <ProtectedPage guestOnly={true}>
+   <ProtectedPage needLogin={true}>
     <SeatPage />
    </ProtectedPage>
   }
@@ -90,7 +94,7 @@ const routes = [
   path="/home"
   key={'home'}
   element={
-   <ProtectedPage needLogin={true}>
+   <ProtectedPage guestOnly={true}>
     <HomePage />
    </ProtectedPage>
   }
@@ -99,7 +103,7 @@ const routes = [
   path="/list-city"
   key={'city'}
   element={
-   <ProtectedPage needLogin={true}>
+   <ProtectedPage guestOnly={true}>
     <CityPage />
    </ProtectedPage>
   }
@@ -108,10 +112,45 @@ const routes = [
   path="/upcoming"
   key={'upcoming'}
   element={
-   <ProtectedPage needLogin={true}>
+   <ProtectedPage guestOnly={true}>
     <UpComingPage />
    </ProtectedPage>
   }
+ />,
+
+ <Route
+  path="/forgot-password"
+  key={'upcoming'}
+  element={
+   <ProtectedPage guestOnly={true}>
+    <ForgotPasswordPage />
+   </ProtectedPage>
+  }
+ />,
+
+ <Route
+  path="/change-new-password/:token"
+  key={'change-password'}
+  element={
+   <ProtectedPage guestOnly={true}>
+    <ChangePasswordPage />
+   </ProtectedPage>
+  }
+ />,
+
+ <Route
+  path="/change-password"
+  key={'change-password'}
+  element={
+   <ProtectedPage guestOnly={true}>
+    <ChangePasswordPage2 />
+   </ProtectedPage>
+  }
+ />,
+ <Route
+  path="/*"
+  key={'redirect'}
+  element={<ProtectedPage guestOnly={true} needLogin={true}></ProtectedPage>}
  />
 ];
 
