@@ -11,7 +11,7 @@ export default function MovieList({ movies }) {
     w="100vw"
    >
     {movies?.map((val, idx) => (
-     <GridItem w="100%" paddingY={'5px'}>
+     <GridItem w="100%" paddingY={'5px'} key={idx}>
       <MovieCard key={idx} {...val} />
      </GridItem>
     ))}

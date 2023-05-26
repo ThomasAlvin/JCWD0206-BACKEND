@@ -112,12 +112,14 @@ export default function Profile() {
       </Flex>
      </Link>
 
-     <Flex gap="10px" w="100%" padding="10px 20px" border="1px solid #EBEBEB">
-      <Center>
-       <FaLock />
-      </Center>
-      Change PIN/Password{' '}
-     </Flex>
+     <Link to="/change-password">
+      <Flex gap="10px" w="100%" padding="10px 20px" border="1px solid #EBEBEB">
+       <Center>
+        <FaLock />
+       </Center>
+       Change PIN/Password{' '}
+      </Flex>
+     </Link>
 
      {/* Transaction History */}
      <Flex

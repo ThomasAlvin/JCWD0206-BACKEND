@@ -140,10 +140,10 @@ export default function Seat({ movie }) {
         counter++;
         return (
          <>
-          <GridItem h="21px">
+          <GridItem h="21px" key={i + seats[counter]}>
            <Center fontWeight={'700'}> {seats[counter]}</Center>
           </GridItem>
-          <GridItem>
+          <GridItem key={i}>
            <Center h="21px">
             <OneSeat key={i} />
            </Center>
@@ -153,7 +153,7 @@ export default function Seat({ movie }) {
        }
 
        return (
-        <GridItem>
+        <GridItem key={i}>
          <Center h="21px">
           <OneSeat key={i} />
           {/* <MdEventSeat color="green" /> */}
