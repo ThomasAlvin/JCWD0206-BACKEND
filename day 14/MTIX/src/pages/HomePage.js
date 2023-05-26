@@ -13,7 +13,7 @@ export default function HomePage() {
   useEffect(() => {
     async function fetch() {
       try {
-        await api.get("/movies").then((res) => {
+        await api.get("/movie").then((res) => {
           console.log(res.data);
           setMovies(res.data);
         });
