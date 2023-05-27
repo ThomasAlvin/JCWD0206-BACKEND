@@ -5,7 +5,6 @@ const userController = require("../controllers").userController;
 
 router.post("/v1", userController.login); //login
 router.post("/v2", userController.loginV2); //login
-
 router.post("/", userController.register); //register
 router.post(
   "/image/v1/:id",
@@ -19,7 +18,6 @@ router.post(
   upload.single("avatar"),
   userController.uploadAvatarv2
 ); //register
-router.get("/image/render/:id", userController.renderAvatar);
 router.get("/companies", userController.getCompanies); //register
 router.get("/token", userController.getByToken);
 // router.get('/token2', userController.getByTokenV2);

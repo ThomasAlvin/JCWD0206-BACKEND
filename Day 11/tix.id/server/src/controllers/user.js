@@ -11,7 +11,7 @@ const sharp = require("sharp");
 const userController = {
   register: async (req, res) => {
     try {
-      const { email, password, name, address, CompanyId } = req.body;
+      const { email, password, name, address, phonenum } = req.body;
       const hashPassword = await bcrypt.hash(password, 10);
       console.log(hashPassword);
 
@@ -20,7 +20,7 @@ const userController = {
         password: hashPassword,
         name,
         address,
-        CompanyId,
+        phonenum,
       });
 
       return res.send({
@@ -75,16 +75,16 @@ const userController = {
   },
   loginV2: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { phonenum, pin } = req.body;
       //   console.log("asd");
       const user = await db.User.findOne({
         where: {
-          email,
+          phonenum,
         },
       });
 
       if (user) {
-        const match = await bcrypt.compare(password, user.dataValues.password);
+        const match = await bcrypt.compare(pin, user.dataValues.password);
         if (match) {
           const payload = {
             id: user.dataValues.id,

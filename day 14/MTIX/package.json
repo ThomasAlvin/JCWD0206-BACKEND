@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.6.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -12,7 +13,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "formik": "^2.2.9",
     "framer-motion": "^10.12.15",
+    "icons": "^1.0.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,7 +28,9 @@
     "redux-thunk": "^2.4.2",
     "sass": "^1.62.1",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0",
+    "yup-password": "^0.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

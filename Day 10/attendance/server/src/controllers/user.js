@@ -34,6 +34,40 @@ const userController = {
 
   login: async (req, res) => {
     try {
+      const { email, password } = req.body;
+
+      const user = await db.User.findOne({
+        where: {
+          email,
+        },
+      });
+
+      //    console.log(user);
+
+      if (user) {
+        const match = await bcrypt.compare(password, user.dataValues.password);
+        if (match) {
+          const payload = {
+            id: user.dataValues.id,
+          };
+          const token = jwt.sign(payload, private_key, {
+            expiresIn: "1h",
+          });
+
+          console.log(token);
+          //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6InVkaW4yIiwiYWRkcmVzcyI6ImJhdGFtIiwicGFzc3dvcmQiOiIkMmIkMTAkWUkvcTl2dVdTOXQ0R1V5a1lxRGtTdWJnTTZwckVnRm9nZzJLSi9FckFHY3NXbXBRUjFOcXEiLCJlbWFpbCI6InVkaW4yQG1haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwiZGVsZXRlZEF0IjpudWxsLCJDb21wYW55SWQiOm51bGwsImlhdCI6MTY4NDQ4MzQ4NSwiZXhwIjoxNjg0NDgzNTQ1fQ.Ye5l7Yml1TBWUgV7eUnhTVQjdT3frR9E0HXNxO7bTXw;
+
+          return res.send({
+            message: "login berhasil",
+            value: user,
+            token,
+          });
+        } else {
+          throw new Error("wrong password");
+        }
+      } else {
+        throw new Error("user not found");
+      }
     } catch (err) {
       console.log(err.message);
       return res.status(500).send({ message: err.message });
@@ -158,7 +192,7 @@ const userController = {
       });
 
       if (user.dataValues) {
-        // cek apa ada token yg mengarah ke id user tsb
+        // cek apa ada token yg mengarah ke id user
         await db.Token.update(
           {
             valid: false,
@@ -260,10 +294,7 @@ const userController = {
     }).then((result) => res.send(result));
   },
   uploadAvatarv2: async (req, res) => {
-    const buffer = await sharp(req.file.buffer)
-      .resize(250, 250)
-      .png()
-      .toBuffer();
+    const buffer = await sharp(req.file.buffer).resize(25, 25).png().toBuffer();
     var fullUrl =
       req.protocol +
       "://" +

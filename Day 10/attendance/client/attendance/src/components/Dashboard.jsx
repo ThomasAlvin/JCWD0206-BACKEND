@@ -49,6 +49,19 @@ export default function Dashboard() {
   async function uploadAvatar() {
     const formData = new FormData();
     formData.append("avatar", selectedFile);
+
+    // formData.append("name", selectedFile);
+    // formData.append("producer", selectedFile);
+    // formData.append("director", selectedFile);
+    // formData.append("writer", selectedFile);
+    // formData.append("cast", selectedFile);
+    // formData.append("distributor", selectedFile);
+    // formData.append("website", selectedFile);
+    // formData.append("synopsis", selectedFile);
+    // formData.append("genre", selectedFile);
+    // formData.append("rating", selectedFile);
+    // formData.append("dimensions", selectedFile);
+    // formData.append("img_url", selectedFile);
     console.log(formData);
     let user = "";
     await axios

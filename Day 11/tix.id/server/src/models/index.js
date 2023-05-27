@@ -55,6 +55,7 @@ db.Schedule = require("./schedules")(sequelize, Sequelize);
 db.Theater = require("./theaters")(sequelize, Sequelize);
 db.Ticket = require("./tickets")(sequelize, Sequelize);
 db.User = require("./users")(sequelize, Sequelize);
+db.Token = require("./tokens")(sequelize, Sequelize);
 
 db.Theater.belongsTo(db.City);
 db.OrderItem.belongsTo(db.Order);
