@@ -178,6 +178,7 @@ const userController = {
   },
 
   getUserByToken: async (req, res) => {
+    console.log("yes");
     res.send(req.user);
   },
 
@@ -208,7 +209,7 @@ const userController = {
 
         const generateToken = nanoid();
         const token = await db.Token.create({
-          expired: moment().add(5, "minutes").format(),
+          expired: moment().add(10, "days").format(),
           token: generateToken,
           payload: JSON.stringify({ id: user.dataValues.id }),
           status: "FORGOT-PASSWORD",

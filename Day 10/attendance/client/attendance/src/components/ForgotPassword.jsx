@@ -11,14 +11,15 @@ export default function ForgotPassword() {
 
   async function fetchUser(token) {
     await axios
-      .get("http://localhost:2000/auth/v3", {
+      .get("http://localhost:2000/auth/v3?token=" + token, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("lola");
         setUser(res.data);
+        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }

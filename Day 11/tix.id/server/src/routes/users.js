@@ -25,6 +25,6 @@ router.get("/v3", userController.getByTokenV2, userController.getUserByToken);
 //mendapatkan user dari token di path. apakah token exp ? kalau tidak kirim user
 router.patch("/v4", userController.getByTokenV2, userController.changePassword);
 
-router.get("/generate-token/email", userController.generateTokenByEmail);
+router.post("/generate-token/email", userController.generateTokenByEmail);
 
 module.exports = router;

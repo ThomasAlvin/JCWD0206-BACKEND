@@ -143,6 +143,7 @@ const userController = {
     try {
       const { token } = req.query;
       console.log(token);
+
       let p = await db.Token.findOne({
         where: {
           token,
@@ -208,7 +209,7 @@ const userController = {
 
         const generateToken = nanoid();
         const token = await db.Token.create({
-          expired: moment().add(5, "minutes").format(),
+          expired: moment().add(1, "days").format(),
           token: generateToken,
           payload: JSON.stringify({ id: user.dataValues.id }),
           status: "FORGOT-PASSWORD",
@@ -235,13 +236,15 @@ const userController = {
     }
   },
   changePassword: async (req, res) => {
+    // console.log(req.body);
     try {
       const { token } = req.query;
 
-      const { password } = req.body.user;
+      const { password } = req.body;
       const { id } = req.user;
 
-      console.log(id);
+      console.log(password);
+      console.log(req.user);
 
       const hashPassword = await bcrypt.hash(password, 10);
 

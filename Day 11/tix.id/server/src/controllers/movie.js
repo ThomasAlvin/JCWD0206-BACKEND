@@ -2,6 +2,7 @@ const db = require("../models");
 const Sequelize = require("sequelize");
 const { Op } = db.Sequelize;
 const moment = require("moment");
+const { nanoid } = require("nanoid");
 const image_url_movie = process.env.URL_IMAGE;
 const movieController = {
   getAll: async (req, res) => {
@@ -102,7 +103,7 @@ const movieController = {
         upcoming,
       } = req.body;
       const { filename } = req.file;
-      console.log("lol");
+      const generateToken = nanoid();
       await db.Movie.create({
         name,
         producer,
